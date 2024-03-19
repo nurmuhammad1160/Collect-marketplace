@@ -4,7 +4,6 @@ COLOR,SIZE = ('color','size')
 
 
 class User(models.Model):
-    id = models.AutoField(primary_key=True)
     avatar = models.CharField(max_length=255, null=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -20,7 +19,6 @@ class User(models.Model):
         db_table = 'user'
 
 class Address(models.Model):
-    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     address_line_1 = models.CharField(max_length=255)
@@ -37,7 +35,6 @@ class Address(models.Model):
         db_table = 'address'
 
 class Category(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,7 +44,6 @@ class Category(models.Model):
         db_table = 'category'
 
 class SubCategory(models.Model):
-    id = models.AutoField(primary_key=True)
     parent = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -58,7 +54,6 @@ class SubCategory(models.Model):
         db_table = 'subcategory'
 
 class Product(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
     cover = models.CharField(max_length=255)
@@ -74,7 +69,6 @@ class ProductAttribute(models.Model):
         (COLOR,COLOR),
         (SIZE,SIZE)
     )
-    id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=20, choices=P_TYPE)
     value = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -84,7 +78,6 @@ class ProductAttribute(models.Model):
         db_table = 'productattribute'
 
 class ProductSKU(models.Model):
-    id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size_attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE, related_name='size_skus')
     color_attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE, related_name='color_skus')
@@ -98,7 +91,6 @@ class ProductSKU(models.Model):
         db_table = 'productsku'
 
 class Wishlist(models.Model):
-    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -108,7 +100,6 @@ class Wishlist(models.Model):
         db_table = 'wishlist'
 
 class Cart(models.Model):
-    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -118,7 +109,6 @@ class Cart(models.Model):
         db_table = 'cart'
 
 class CartItem(models.Model):
-    id = models.AutoField(primary_key=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     products_sku = models.ForeignKey(ProductSKU, on_delete=models.CASCADE)
@@ -130,7 +120,6 @@ class CartItem(models.Model):
         db_table = 'cartitem'
 
 class OrderDetails(models.Model):
-    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_id = models.IntegerField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
@@ -141,7 +130,6 @@ class OrderDetails(models.Model):
         db_table = 'orderdetails'
 
 class OrderItem(models.Model):
-    id = models.AutoField(primary_key=True)
     order = models.ForeignKey(OrderDetails, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     products_sku = models.ForeignKey(ProductSKU, on_delete=models.CASCADE)
