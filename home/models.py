@@ -1,7 +1,7 @@
 from django.db import models
 
-COLOR,SIZE = ('color','size')
 
+COLOR,SIZE = ('color','size')
 
 class User(models.Model):
     avatar = models.CharField(max_length=255, null=True)
