@@ -1,5 +1,8 @@
 from django.db import models
 
+COLOR,SIZE = ('color','size')
+
+
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     avatar = models.CharField(max_length=255, null=True)
@@ -67,8 +70,12 @@ class Product(models.Model):
         db_table = 'product'
 
 class ProductAttribute(models.Model):
+    P_TYPE = (
+        (COLOR,COLOR),
+        (SIZE,SIZE)
+    )
     id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=20, choices=[('color', 'Color'), ('size', 'Size')])
+    type = models.CharField(max_length=20, choices=P_TYPE)
     value = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(auto_now=True)
@@ -92,8 +99,8 @@ class ProductSKU(models.Model):
 
 class Wishlist(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(auto_now=True)
 
